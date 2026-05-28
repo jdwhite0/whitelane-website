@@ -15,3 +15,9 @@ remove_bg.py
 
 # Vercel
 .vercel
+
+# Intro build artifacts (source clips + frame sequences — not shipped)
+assets/intro/clips/
+assets/intro/frames/
+assets/intro/build_intro.sh
+assets/intro/make_title_card.py
