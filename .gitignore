@@ -16,8 +16,10 @@ remove_bg.py
 # Vercel
 .vercel
 
-# Intro build artifacts (source clips + frame sequences — not shipped)
+# Intro build artifacts (source clips + title card frame sequence — not shipped)
 assets/intro/clips/
-assets/intro/frames/
+assets/intro/frames/frame_*.png
 assets/intro/build_intro.sh
 assets/intro/make_title_card.py
+# Re-include AI-generated shot stills (overrides *.PNG wildcard above)
+!assets/intro/frames/shot*.png
