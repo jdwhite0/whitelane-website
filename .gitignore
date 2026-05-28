@@ -21,5 +21,7 @@ assets/intro/clips/
 assets/intro/frames/frame_*.png
 assets/intro/build_intro.sh
 assets/intro/make_title_card.py
+# AI source clips (raw Runway output — not shipped, only assembled intro is)
+assets/intro/ai_shot*.mp4
 # Re-include AI-generated shot stills (overrides *.PNG wildcard above)
 !assets/intro/frames/shot*.png
