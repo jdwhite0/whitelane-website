@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+
+# Source composites and originals (already in /source/)
+assets/escalade.png
+assets/mercedes_gls.png
+assets/mercedes_s.png
+assets/rover_clean.png
+assets/rover_gold.png
+
+# Loose files (source references, not web assets)
+*.PNG
+*.pdf
+remove_bg.py
+
+# Vercel
+.vercel

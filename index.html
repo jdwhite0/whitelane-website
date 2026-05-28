@@ -1,0 +1,2016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>White Lane — Executive Chauffeur Service</title>
+    <meta name="description" content="White Lane. Executive chauffeur service in Tampa and Atlanta. Fixed rates. White fleet. Your driver assigned — not matched.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+
+    /* ─────────────────────────────────────────
+       SYSTEM FOUNDATION
+    ───────────────────────────────────────── */
+
+    :root {
+        --white:   #FFFFFF;
+        --off:     #F5F5F3;
+        --light:   #EAEAEA;
+        --gray:    #888888;
+        --mid:     #555555;
+        --dark:    #1a1a1a;
+        --black:   #080808;
+        --gold:    #C9A84C;
+        --gold-dim: rgba(201, 168, 76, 0.12);
+        --gold-mid: rgba(201, 168, 76, 0.35);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+        font-family: 'Space Grotesk', sans-serif;
+        background: var(--white);
+        color: var(--dark);
+        overflow-x: hidden;
+    }
+
+    img { display: block; max-width: 100%; }
+
+    /* ─────────────────────────────────────────
+       NAVIGATION
+    ───────────────────────────────────────── */
+
+    #nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 28px 52px;
+        transition: background 0.5s ease, padding 0.4s ease, border-color 0.5s ease;
+        border-bottom: 1px solid transparent;
+    }
+
+    #nav.scrolled {
+        background: rgba(8, 8, 8, 0.96);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        padding: 18px 52px;
+        border-bottom-color: rgba(201, 168, 76, 0.15);
+    }
+
+    .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+    }
+
+    .nav-wl {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.5px;
+        color: var(--gold);
+        line-height: 1;
+    }
+
+    .nav-divider {
+        width: 1px;
+        height: 18px;
+        background: rgba(255,255,255,0.18);
+    }
+
+    .nav-wordmark {
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.75);
+        line-height: 1;
+    }
+
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        list-style: none;
+    }
+
+    .nav-links a {
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        text-decoration: none;
+        transition: color 0.25s;
+    }
+
+    .nav-links a:hover { color: var(--white); }
+
+    .nav-cta {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--black);
+        background: var(--gold);
+        text-decoration: none;
+        padding: 12px 28px;
+        transition: background 0.25s, color 0.25s;
+        white-space: nowrap;
+    }
+
+    .nav-cta:hover { background: #b8963e; }
+
+
+    /* ─────────────────────────────────────────
+       HERO — the arrival
+    ───────────────────────────────────────── */
+
+    .hero {
+        position: relative;
+        height: 100vh;
+        min-height: 700px;
+        background: var(--black);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    /* Road lane animation — aerial descent simulation */
+    .lane-field {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        justify-content: center;
+        gap: 120px;
+        opacity: 1;
+        transition: opacity 0.8s ease;
+    }
+
+    .lane-field.done { opacity: 0; }
+
+    .lane-col {
+        position: relative;
+        width: 2px;
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .lane-col.center { width: 3px; }
+
+    .lane-mark {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        border-radius: 1px;
+    }
+
+    /* Side lanes — dotted marks */
+    .lane-col:not(.center) .lane-mark {
+        height: 60px;
+        background: rgba(255,255,255,0.18);
+    }
+
+    /* Center lane — solid gold/white */
+    .lane-col.center .lane-mark {
+        height: 80px;
+        background: var(--gold);
+        opacity: 0.7;
+    }
+
+    /* Vehicle reveal — fades in after lanes */
+    .hero-vehicle {
+        position: absolute;
+        right: -100px;
+        bottom: 0;
+        width: 68%;
+        max-width: 900px;
+        opacity: 0;
+        transform: translateX(40px);
+        transition: opacity 1.2s ease, transform 1.2s ease;
+        filter: drop-shadow(0 0 60px rgba(201, 168, 76, 0.08));
+    }
+
+    .hero-vehicle.on {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    /* Gold lane line — the signature mark */
+    .hero-lane-line {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(to right, transparent, var(--gold) 20%, var(--gold) 80%, transparent);
+        opacity: 0;
+        transition: opacity 1s ease 0.6s;
+    }
+
+    .hero-lane-line.on { opacity: 0.5; }
+
+    /* Hero copy — left side */
+    .hero-copy {
+        position: relative;
+        z-index: 2;
+        padding: 0 52px;
+        max-width: 680px;
+        opacity: 0;
+        transition: opacity 1s ease;
+    }
+
+    .hero-copy.on { opacity: 1; }
+
+    .hero-label {
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 28px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .hero-label::before {
+        content: '';
+        display: block;
+        width: 32px;
+        height: 1px;
+        background: var(--gold);
+        opacity: 0.6;
+    }
+
+    .hero-title {
+        font-size: clamp(56px, 8vw, 100px);
+        font-weight: 700;
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        color: var(--white);
+        margin-bottom: 32px;
+    }
+
+    .hero-title span {
+        display: block;
+        color: var(--gold);
+    }
+
+    .hero-sub {
+        font-size: 13px;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        color: rgba(255,255,255,0.38);
+        text-transform: uppercase;
+        margin-bottom: 52px;
+    }
+
+    .hero-actions {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .btn-app {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: var(--white);
+        color: var(--black);
+        text-decoration: none;
+        padding: 14px 24px;
+        transition: background 0.25s, transform 0.25s;
+    }
+
+    .btn-app:hover { background: var(--light); transform: translateY(-1px); }
+
+    .btn-app-icon {
+        font-size: 18px;
+        line-height: 1;
+    }
+
+    .btn-app-text {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+    }
+
+    .btn-app-top {
+        font-size: 8px;
+        font-weight: 400;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0.6;
+    }
+
+    .btn-app-store {
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+    }
+
+    .btn-learn {
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.4);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        transition: color 0.25s;
+    }
+
+    .btn-learn::after {
+        content: '↓';
+        font-size: 14px;
+    }
+
+    .btn-learn:hover { color: var(--white); }
+
+    /* Hero status bar — OS feel */
+    .hero-status {
+        position: absolute;
+        bottom: 32px;
+        left: 52px;
+        right: 52px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.8s ease 1.8s;
+    }
+
+    .hero-status.on { opacity: 1; }
+
+    .status-item {
+        font-size: 8.5px;
+        font-weight: 500;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.2);
+    }
+
+    .status-dot {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--gold);
+        opacity: 0.6;
+        display: inline-block;
+        margin-right: 8px;
+    }
+
+    .status-active { color: rgba(255,255,255,0.45); }
+
+
+    /* ─────────────────────────────────────────
+       STATEMENT — one sentence, full weight
+    ───────────────────────────────────────── */
+
+    .statement {
+        background: var(--white);
+        padding: 160px 52px;
+        text-align: center;
+    }
+
+    .statement-inner {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .os-label {
+        font-size: 8.5px;
+        font-weight: 600;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .os-label::before, .os-label::after {
+        content: '';
+        display: block;
+        width: 40px;
+        height: 1px;
+        background: var(--gold);
+        opacity: 0.4;
+    }
+
+    .statement-line {
+        font-size: clamp(28px, 4.5vw, 56px);
+        font-weight: 300;
+        line-height: 1.2;
+        color: var(--dark);
+        letter-spacing: -0.01em;
+    }
+
+    .statement-line strong {
+        font-weight: 700;
+        color: var(--black);
+    }
+
+
+    /* ─────────────────────────────────────────
+       SERVICES — OS panel grid
+    ───────────────────────────────────────── */
+
+    .services {
+        background: var(--black);
+        padding: 120px 52px;
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 64px;
+        padding-bottom: 24px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .section-title {
+        font-size: clamp(32px, 4vw, 48px);
+        font-weight: 600;
+        color: var(--white);
+        letter-spacing: -0.02em;
+        line-height: 1.1;
+    }
+
+    .section-title-dark { color: var(--dark); }
+
+    .section-count {
+        font-size: 9px;
+        font-weight: 500;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.2);
+    }
+
+    .section-count-dark { color: rgba(26,26,26,0.3); }
+
+    .services-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+        background: rgba(255,255,255,0.05);
+    }
+
+    .service-panel {
+        background: var(--black);
+        padding: 52px 48px;
+        cursor: default;
+        transition: background 0.3s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .service-panel::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: var(--gold);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+
+    .service-panel:hover { background: #0f0f0f; }
+    .service-panel:hover::after { transform: scaleX(1); }
+
+    .panel-num {
+        font-size: 8px;
+        font-weight: 600;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 28px;
+        opacity: 0.7;
+    }
+
+    .panel-name {
+        font-size: 22px;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 16px;
+        letter-spacing: -0.01em;
+    }
+
+    .panel-desc {
+        font-size: 13px;
+        font-weight: 300;
+        line-height: 1.8;
+        color: rgba(255,255,255,0.3);
+    }
+
+
+    /* ─────────────────────────────────────────
+       FLEET — luxury showroom
+    ───────────────────────────────────────── */
+
+    .fleet {
+        background: #030303;
+        padding: 120px 0 0;
+        overflow: hidden;
+    }
+
+    .fleet-header {
+        padding: 0 52px 64px;
+    }
+
+    /* Two-column stage: selector left | display right */
+    .fleet-stage {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        min-height: 520px;
+        border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    /* ── Selector nav ── */
+    .fleet-nav {
+        border-right: 1px solid rgba(255,255,255,0.05);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 48px 0;
+    }
+
+    .fleet-nav-item {
+        background: none;
+        border: none;
+        border-left: 2px solid transparent;
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: 24px 1fr;
+        grid-template-rows: auto auto;
+        column-gap: 14px;
+        row-gap: 3px;
+        padding: 20px 40px 20px 48px;
+        text-align: left;
+        position: relative;
+        transition: background 0.25s;
+    }
+
+    .fleet-nav-item::before {
+        content: '';
+        position: absolute;
+        left: -2px; top: 0; bottom: 0;
+        width: 2px;
+        background: var(--gold);
+        transform: scaleY(0);
+        transform-origin: center;
+        transition: transform 0.35s ease;
+    }
+
+    .fleet-nav-item.active::before { transform: scaleY(1); }
+    .fleet-nav-item:hover { background: rgba(255,255,255,0.02); }
+
+    .fleet-nav-num {
+        font-size: 8.5px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        color: rgba(255,255,255,0.15);
+        grid-column: 1; grid-row: 1;
+        padding-top: 3px;
+        transition: color 0.25s;
+    }
+
+    .fleet-nav-item.active .fleet-nav-num { color: var(--gold); }
+
+    .fleet-nav-name {
+        font-size: 15px;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        color: rgba(255,255,255,0.3);
+        grid-column: 2; grid-row: 1;
+        transition: color 0.25s;
+    }
+
+    .fleet-nav-item.active .fleet-nav-name,
+    .fleet-nav-item:hover .fleet-nav-name { color: rgba(255,255,255,0.88); }
+
+    .fleet-nav-class {
+        font-size: 8px;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.14);
+        grid-column: 2; grid-row: 2;
+        transition: color 0.25s;
+    }
+
+    .fleet-nav-item.active .fleet-nav-class { color: rgba(201,168,76,0.5); }
+
+    /* ── Vehicle display ── */
+    .fleet-display {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .fleet-slide {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.45s ease;
+        pointer-events: none;
+    }
+
+    .fleet-slide.active {
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+        min-height: 520px;
+    }
+
+    .fleet-spotlight {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80%;
+        height: 55%;
+        background: radial-gradient(ellipse at 50% 90%,
+            rgba(201,168,76,0.055) 0%,
+            rgba(255,255,255,0.02) 35%,
+            transparent 68%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .fleet-vehicle-img {
+        width: 88%;
+        max-width: 740px;
+        height: auto;
+        display: block;
+        position: relative;
+        z-index: 2;
+        filter: drop-shadow(0 28px 52px rgba(0,0,0,0.7));
+        animation: vehicleBreathe 6s ease-in-out infinite;
+    }
+
+    @keyframes vehicleBreathe {
+        0%, 100% { transform: translateY(0px); }
+        50%       { transform: translateY(-7px); }
+    }
+
+    .fleet-ground {
+        position: absolute;
+        bottom: 0; left: 0; right: 0;
+        height: 72px;
+        background: linear-gradient(to top, rgba(201,168,76,0.025) 0%, transparent 100%);
+        border-top: 1px solid rgba(255,255,255,0.025);
+        z-index: 1;
+    }
+
+    /* ── Details strip ── */
+    .fleet-details {
+        border-top: 1px solid rgba(255,255,255,0.05);
+        position: relative;
+        min-height: 130px;
+    }
+
+    .fleet-detail-panel {
+        display: grid;
+        grid-template-columns: 1fr auto auto;
+        align-items: center;
+        gap: 48px;
+        padding: 44px 52px;
+        opacity: 0;
+        position: absolute;
+        inset: 0;
+        transition: opacity 0.4s ease;
+        pointer-events: none;
+    }
+
+    .fleet-detail-panel.active {
+        opacity: 1;
+        pointer-events: auto;
+        position: relative;
+    }
+
+    .fleet-detail-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .fleet-detail-dot {
+        width: 4px; height: 4px;
+        border-radius: 50%;
+        background: var(--gold);
+    }
+
+    .fleet-detail-badge-text {
+        font-size: 7.5px;
+        font-weight: 600;
+        letter-spacing: 0.32em;
+        text-transform: uppercase;
+        color: var(--gold);
+    }
+
+    .fleet-detail-name {
+        font-size: 21px;
+        font-weight: 600;
+        color: var(--white);
+        letter-spacing: -0.02em;
+        margin-bottom: 4px;
+    }
+
+    .fleet-detail-sub {
+        font-size: 10px;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.28);
+    }
+
+    .fleet-detail-specs {
+        display: flex;
+        gap: 40px;
+    }
+
+    .spec {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .spec-label {
+        font-size: 7.5px;
+        font-weight: 600;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.28);
+    }
+
+    .spec-value {
+        font-size: 13px;
+        font-weight: 500;
+        color: rgba(255,255,255,0.78);
+    }
+
+    .btn-book-vehicle {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--gold);
+        color: var(--black);
+        text-decoration: none;
+        font-size: 8.5px;
+        font-weight: 700;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        padding: 17px 32px;
+        white-space: nowrap;
+        transition: background 0.25s;
+    }
+
+    .btn-book-vehicle:hover { background: #b8963e; }
+    .btn-book-vehicle .btn-arrow { font-size: 15px; font-weight: 300; }
+
+
+    /* ─────────────────────────────────────────
+       DIFFERENTIATION — why white lane
+    ───────────────────────────────────────── */
+
+    .why {
+        background: var(--black);
+        padding: 120px 52px;
+    }
+
+    .why-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1px;
+        background: rgba(255,255,255,0.04);
+        margin-top: 64px;
+    }
+
+    .why-cell {
+        background: var(--black);
+        padding: 52px 48px;
+    }
+
+    .why-icon {
+        width: 36px;
+        height: 1px;
+        background: var(--gold);
+        margin-bottom: 32px;
+        opacity: 0.6;
+    }
+
+    .why-title {
+        font-size: 19px;
+        font-weight: 600;
+        color: var(--white);
+        margin-bottom: 14px;
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+    }
+
+    .why-desc {
+        font-size: 13px;
+        font-weight: 300;
+        line-height: 1.85;
+        color: rgba(255,255,255,0.3);
+    }
+
+
+    /* ─────────────────────────────────────────
+       APP — the main conversion
+    ───────────────────────────────────────── */
+
+    .app-section {
+        background: var(--white);
+        padding: 140px 52px;
+    }
+
+    .app-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 100px;
+        align-items: center;
+    }
+
+    .app-copy {}
+
+    .app-title {
+        font-size: clamp(40px, 5.5vw, 72px);
+        font-weight: 700;
+        color: var(--black);
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        margin-bottom: 28px;
+    }
+
+    .app-title span { color: var(--gold); }
+
+    .app-sub {
+        font-size: 15px;
+        font-weight: 300;
+        line-height: 1.9;
+        color: var(--mid);
+        margin-bottom: 48px;
+        max-width: 400px;
+    }
+
+    .app-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-width: 280px;
+    }
+
+    .app-btn {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 16px 24px;
+        text-decoration: none;
+        transition: transform 0.2s ease;
+        border: 1px solid transparent;
+    }
+
+    .app-btn:hover { transform: translateY(-2px); }
+
+    .app-btn-primary {
+        background: var(--black);
+        color: var(--white);
+    }
+
+    .app-btn-secondary {
+        background: transparent;
+        border-color: var(--light);
+        color: var(--black);
+    }
+
+    .app-btn-icon { font-size: 22px; line-height: 1; }
+
+    .app-btn-text { display: flex; flex-direction: column; gap: 1px; }
+
+    .app-btn-top {
+        font-size: 8px;
+        font-weight: 400;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        opacity: 0.5;
+    }
+
+    .app-btn-store { font-size: 14px; font-weight: 700; }
+
+    /* App mockup panel — OS dashboard feel */
+    .app-mockup {
+        background: var(--black);
+        border-radius: 0;
+        padding: 32px;
+        position: relative;
+        min-height: 480px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .mockup-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 16px;
+        border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .mockup-logo {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        color: var(--gold);
+    }
+
+    .mockup-time {
+        font-size: 10px;
+        font-weight: 400;
+        color: rgba(255,255,255,0.2);
+        letter-spacing: 0.1em;
+    }
+
+    .mockup-map {
+        flex: 1;
+        background: #0d0d0d;
+        border: 1px solid rgba(255,255,255,0.04);
+        position: relative;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    /* Simulated map grid lines */
+    .mockup-map::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image:
+            linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+        background-size: 32px 32px;
+    }
+
+    .mockup-pin {
+        position: relative;
+        z-index: 2;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--gold);
+        box-shadow: 0 0 0 6px rgba(201, 168, 76, 0.15), 0 0 0 12px rgba(201, 168, 76, 0.05);
+    }
+
+    /* Route line */
+    .mockup-route {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    .mockup-route svg { width: 100%; height: 100%; }
+
+    .mockup-card {
+        background: #111;
+        border: 1px solid rgba(255,255,255,0.05);
+        padding: 18px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .mockup-driver {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .mockup-driver-name {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--white);
+    }
+
+    .mockup-driver-sub {
+        font-size: 10px;
+        color: rgba(255,255,255,0.3);
+        letter-spacing: 0.08em;
+    }
+
+    .mockup-eta {
+        text-align: right;
+    }
+
+    .mockup-eta-num {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--gold);
+        line-height: 1;
+    }
+
+    .mockup-eta-label {
+        font-size: 9px;
+        color: rgba(255,255,255,0.25);
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+    }
+
+    .mockup-actions {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+    }
+
+    .mockup-btn {
+        padding: 14px;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        text-align: center;
+        cursor: default;
+    }
+
+    .mockup-btn-primary { background: var(--gold); color: var(--black); }
+    .mockup-btn-secondary { background: #1a1a1a; color: rgba(255,255,255,0.4); }
+
+
+    /* ─────────────────────────────────────────
+       STANDARDS BAND
+    ───────────────────────────────────────── */
+
+    .standards {
+        background: var(--black);
+        border-top: 1px solid rgba(201, 168, 76, 0.15);
+        border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+        padding: 0 52px;
+        overflow: hidden;
+    }
+
+    .standards-track {
+        display: flex;
+        gap: 80px;
+        padding: 28px 0;
+        white-space: nowrap;
+        animation: marquee 18s linear infinite;
+    }
+
+    .standards-item {
+        font-size: 10px;
+        font-weight: 500;
+        letter-spacing: 0.25em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.2);
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-shrink: 0;
+    }
+
+    .standards-item::before {
+        content: '';
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--gold);
+        opacity: 0.6;
+        flex-shrink: 0;
+    }
+
+    @keyframes marquee {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+
+
+    /* ─────────────────────────────────────────
+       FOOTER
+    ───────────────────────────────────────── */
+
+    footer {
+        background: var(--black);
+        padding: 72px 52px 48px;
+    }
+
+    .footer-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding-bottom: 48px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+        margin-bottom: 32px;
+    }
+
+    .footer-brand {}
+
+    .footer-wl {
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--gold);
+        line-height: 1;
+        margin-bottom: 6px;
+    }
+
+    .footer-wordmark {
+        font-size: 9px;
+        font-weight: 500;
+        letter-spacing: 0.35em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.25);
+    }
+
+    .footer-tagline {
+        margin-top: 20px;
+        font-size: 12px;
+        font-weight: 300;
+        color: rgba(255,255,255,0.22);
+        line-height: 1.7;
+        max-width: 240px;
+    }
+
+    .footer-cols {
+        display: flex;
+        gap: 80px;
+    }
+
+    .footer-col-title {
+        font-size: 8.5px;
+        font-weight: 600;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--gold);
+        opacity: 0.7;
+        margin-bottom: 20px;
+    }
+
+    .footer-col ul {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .footer-col ul li a {
+        font-size: 12px;
+        font-weight: 400;
+        color: rgba(255,255,255,0.25);
+        text-decoration: none;
+        letter-spacing: 0.03em;
+        transition: color 0.2s;
+    }
+
+    .footer-col ul li a:hover { color: rgba(255,255,255,0.65); }
+
+    .footer-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .footer-copy {
+        font-size: 10px;
+        color: rgba(255,255,255,0.15);
+        letter-spacing: 0.08em;
+    }
+
+    .footer-markets {
+        font-size: 9px;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.12);
+    }
+
+
+    /* ─────────────────────────────────────────
+       FADE SYSTEM — opacity only
+    ───────────────────────────────────────── */
+
+    .fade {
+        opacity: 0;
+        transition: opacity 1.2s ease;
+    }
+
+    .fade.on { opacity: 1; }
+    .fade.d1 { transition-delay: 0.2s; }
+    .fade.d2 { transition-delay: 0.4s; }
+    .fade.d3 { transition-delay: 0.6s; }
+    .fade.d4 { transition-delay: 0.8s; }
+
+
+    /* ─────────────────────────────────────────
+       RESPONSIVE
+    ───────────────────────────────────────── */
+
+    @media (max-width: 1024px) {
+        .app-inner { grid-template-columns: 1fr; gap: 60px; }
+        .app-mockup { display: none; }
+    }
+
+    @media (max-width: 900px) {
+        #nav { padding: 20px 28px; }
+        #nav.scrolled { padding: 14px 28px; }
+        .nav-links { display: none; }
+        .hero-copy { padding: 0 28px; }
+        .hero-vehicle { width: 90%; right: -40px; opacity: 0.25; }
+        .services { padding: 80px 28px; }
+        .services-grid { grid-template-columns: 1fr; }
+        .fleet { padding: 80px 0 0; }
+        .fleet-header { padding: 0 28px 48px; }
+        .fleet-stage { grid-template-columns: 1fr; }
+        .fleet-nav { flex-direction: row; overflow-x: auto; border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 0; justify-content: flex-start; }
+        .fleet-nav-item { padding: 16px 24px; flex-direction: column; min-width: 120px; border-left: none; border-bottom: 2px solid transparent; }
+        .fleet-nav-item::before { top: auto; bottom: -2px; left: 0; right: 0; width: auto; height: 2px; transform: scaleX(0); }
+        .fleet-nav-item.active::before { transform: scaleX(1); }
+        .fleet-nav-item { grid-template-columns: 1fr; grid-template-rows: auto auto auto; }
+        .fleet-nav-num { grid-column: 1; }
+        .fleet-nav-name { grid-column: 1; font-size: 13px; }
+        .fleet-nav-class { grid-column: 1; }
+        .fleet-detail-panel { grid-template-columns: 1fr; gap: 24px; padding: 32px 28px; }
+        .fleet-detail-specs { gap: 24px; flex-wrap: wrap; }
+        .why { padding: 80px 28px; }
+        .why-grid { grid-template-columns: 1fr; }
+        .app-section { padding: 100px 28px; }
+        .footer-top { flex-direction: column; gap: 48px; }
+        .footer-cols { gap: 40px; }
+        .standards { padding: 0 28px; }
+        .statement { padding: 100px 28px; }
+    }
+
+    @media (max-width: 600px) {
+        .hero-title { font-size: 52px; }
+        .fleet-specs { flex-wrap: wrap; gap: 20px; }
+        .footer-cols { flex-direction: column; gap: 32px; }
+        .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+        .hero-status { display: none; }
+    }
+
+    /* ─────────────────────────────────────────
+       CINEMATIC INTRO
+    ───────────────────────────────────────── */
+
+    /* ─── Video Intro ─── */
+
+    #intro-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background: #000;
+        overflow: hidden;
+        opacity: 1;
+        transition: opacity 1.2s ease;
+    }
+
+    #intro-overlay.dismissed { opacity: 0; pointer-events: none; }
+
+    #intro-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    /* Cinematic letterbox — 2.35:1 */
+    .intro-bar {
+        position: absolute;
+        left: 0; right: 0;
+        background: #000;
+        z-index: 2;
+        pointer-events: none;
+        height: 11.5vh;
+    }
+
+    .intro-bar-top { top: 0; }
+    .intro-bar-bot { bottom: 0; }
+
+    /* Brand reveal — fades in on last beat */
+    #intro-brand {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 16px;
+        z-index: 3;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+        pointer-events: none;
+    }
+
+    #intro-brand.visible { opacity: 1; }
+
+    .intro-brand-wl {
+        font-size: clamp(28px, 4vw, 52px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--gold);
+        line-height: 1;
+    }
+
+    .intro-brand-rule {
+        width: 1px;
+        height: 32px;
+        background: rgba(255,255,255,0.2);
+    }
+
+    .intro-brand-name {
+        font-size: clamp(10px, 1.2vw, 14px);
+        font-weight: 500;
+        letter-spacing: 0.55em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.75);
+        padding-right: 0.55em;
+    }
+
+    /* Skip button */
+    #intro-skip {
+        position: absolute;
+        bottom: calc(11.5vh + 24px);
+        right: 40px;
+        z-index: 4;
+        background: none;
+        border: 1px solid rgba(255,255,255,0.15);
+        color: rgba(255,255,255,0.28);
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 8.5px;
+        font-weight: 500;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        padding: 10px 20px;
+        cursor: pointer;
+        transition: color 0.25s, border-color 0.25s;
+    }
+
+    #intro-skip:hover {
+        color: rgba(255,255,255,0.55);
+        border-color: rgba(255,255,255,0.35);
+    }
+
+    /* Vignette over video */
+    #intro-overlay::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    </style>
+</head>
+<body>
+
+
+<!-- ─── CINEMATIC INTRO ─── -->
+<div id="intro-overlay">
+    <div class="intro-bar intro-bar-top"></div>
+    <div class="intro-bar intro-bar-bot"></div>
+
+    <video id="intro-video" autoplay muted playsinline preload="auto"
+           poster="assets/intro/poster.jpg">
+        <source src="assets/intro/white-lane-intro.mp4" type="video/mp4">
+    </video>
+
+    <div id="intro-brand">
+        <span class="intro-brand-wl">WL</span>
+        <div class="intro-brand-rule"></div>
+        <span class="intro-brand-name">White Lane</span>
+    </div>
+
+    <button id="intro-skip" type="button">Skip Intro</button>
+</div>
+
+
+<!-- ─── NAVIGATION ─── -->
+<nav id="nav">
+    <a href="#" class="nav-logo" aria-label="White Lane">
+        <span class="nav-wl">WL</span>
+        <div class="nav-divider"></div>
+        <span class="nav-wordmark">White Lane</span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="#services">Services</a></li>
+        <li><a href="#fleet">Fleet</a></li>
+        <li><a href="#why">About</a></li>
+        <li><a href="#app">Download App</a></li>
+    </ul>
+    <a href="#app" class="nav-cta">Reserve</a>
+</nav>
+
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+
+    <!-- Road lane animation — aerial descent -->
+    <div class="lane-field" id="laneField">
+        <div class="lane-col">
+            <div class="lane-mark" style="top:5%; height:50px;"></div>
+            <div class="lane-mark" style="top:22%; height:60px;"></div>
+            <div class="lane-mark" style="top:42%; height:45px;"></div>
+            <div class="lane-mark" style="top:62%; height:55px;"></div>
+            <div class="lane-mark" style="top:80%; height:50px;"></div>
+        </div>
+        <div class="lane-col center">
+            <div class="lane-mark" style="top:3%;"></div>
+            <div class="lane-mark" style="top:18%;"></div>
+            <div class="lane-mark" style="top:36%;"></div>
+            <div class="lane-mark" style="top:54%;"></div>
+            <div class="lane-mark" style="top:72%;"></div>
+            <div class="lane-mark" style="top:88%;"></div>
+        </div>
+        <div class="lane-col">
+            <div class="lane-mark" style="top:8%; height:55px;"></div>
+            <div class="lane-mark" style="top:26%; height:50px;"></div>
+            <div class="lane-mark" style="top:46%; height:60px;"></div>
+            <div class="lane-mark" style="top:66%; height:45px;"></div>
+            <div class="lane-mark" style="top:84%; height:55px;"></div>
+        </div>
+    </div>
+
+    <!-- Vehicle — the Range Rover with gold accents (transparent cutout) -->
+    <img
+        src="assets/fleet/transparent/range-rover-gold.png"
+        alt="White Lane — Range Rover Signature Fleet"
+        class="hero-vehicle"
+        id="heroVehicle">
+
+    <!-- Gold lane line at base -->
+    <div class="hero-lane-line" id="heroLine"></div>
+
+    <!-- Hero copy -->
+    <div class="hero-copy" id="heroCopy">
+        <p class="hero-label">Executive Chauffeur Service</p>
+        <h1 class="hero-title">
+            Arrive<br>
+            <span>Differently.</span>
+        </h1>
+        <p class="hero-sub">Tampa &nbsp;·&nbsp; Atlanta &nbsp;·&nbsp; Coming to your city</p>
+        <div class="hero-actions">
+            <a href="#app" class="btn-app">
+                <span class="btn-app-icon">&#xf8ff;</span>
+                <span class="btn-app-text">
+                    <span class="btn-app-top">Download on the</span>
+                    <span class="btn-app-store">App Store</span>
+                </span>
+            </a>
+            <a href="#app" class="btn-app" style="background: #1a1a1a; color: var(--white);">
+                <span class="btn-app-icon">▶</span>
+                <span class="btn-app-text">
+                    <span class="btn-app-top">Get it on</span>
+                    <span class="btn-app-store">Google Play</span>
+                </span>
+            </a>
+            <a href="#services" class="btn-learn">Explore</a>
+        </div>
+    </div>
+
+    <!-- OS status bar -->
+    <div class="hero-status" id="heroStatus">
+        <span class="status-item"><span class="status-dot"></span><span class="status-active">Fleet Active</span></span>
+        <span class="status-item">Tampa · Atlanta</span>
+        <span class="status-item">White Fleet Only</span>
+        <span class="status-item">Fixed Rates</span>
+        <span class="status-item">Available 24 / 7</span>
+    </div>
+
+</section>
+
+
+<!-- ─── STATEMENT ─── -->
+<section class="statement">
+    <div class="statement-inner">
+        <p class="os-label fade">The Standard</p>
+        <p class="statement-line fade d1">
+            We don't operate like a car service.<br>
+            <strong>We operate like a standard.</strong>
+        </p>
+    </div>
+</section>
+
+
+<!-- ─── SERVICES ─── -->
+<section class="services" id="services">
+    <div class="section-header">
+        <h2 class="section-title fade">Services</h2>
+        <span class="section-count fade">04 Offerings</span>
+    </div>
+
+    <div class="services-grid">
+        <div class="service-panel fade">
+            <p class="panel-num">01</p>
+            <p class="panel-name">Airport Transfers</p>
+            <p class="panel-desc">From curb to gate — and back. Real-time flight tracking. Your driver is there before you land.</p>
+        </div>
+        <div class="service-panel fade d1">
+            <p class="panel-num">02</p>
+            <p class="panel-name">Executive Transportation</p>
+            <p class="panel-desc">Your schedule, your route. Discreet. Professional. The kind of service that doesn't make you wait.</p>
+        </div>
+        <div class="service-panel fade d2">
+            <p class="panel-num">03</p>
+            <p class="panel-name">Hourly Chauffeur</p>
+            <p class="panel-desc">At your disposal. Meetings, errands, events. One rate. No surge. Your driver holds the lane.</p>
+        </div>
+        <div class="service-panel fade d3">
+            <p class="panel-num">04</p>
+            <p class="panel-name">Private & Events</p>
+            <p class="panel-desc">Weddings, galas, corporate functions. Every arrival is an entrance. White Lane makes sure of it.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ─── FLEET ─── -->
+<section class="fleet" id="fleet">
+
+    <div class="fleet-header">
+        <h2 class="section-title section-title-dark fade">The Fleet</h2>
+        <span class="section-count section-count-dark fade">White. Always.</span>
+    </div>
+
+    <!-- Stage: selector + display -->
+    <div class="fleet-stage">
+
+        <!-- Vehicle selector -->
+        <nav class="fleet-nav" aria-label="Fleet vehicles">
+            <button class="fleet-nav-item active" data-vehicle="0" type="button">
+                <span class="fleet-nav-num">01</span>
+                <span class="fleet-nav-name">Range Rover</span>
+                <span class="fleet-nav-class">Signature Class</span>
+            </button>
+            <button class="fleet-nav-item" data-vehicle="1" type="button">
+                <span class="fleet-nav-num">02</span>
+                <span class="fleet-nav-name">Cadillac Escalade</span>
+                <span class="fleet-nav-class">Executive Class</span>
+            </button>
+            <button class="fleet-nav-item" data-vehicle="2" type="button">
+                <span class="fleet-nav-num">03</span>
+                <span class="fleet-nav-name">Mercedes GLS</span>
+                <span class="fleet-nav-class">Premium Class</span>
+            </button>
+            <button class="fleet-nav-item" data-vehicle="3" type="button">
+                <span class="fleet-nav-num">04</span>
+                <span class="fleet-nav-name">Mercedes S‑Class</span>
+                <span class="fleet-nav-class">Executive Sedan</span>
+            </button>
+        </nav>
+
+        <!-- Vehicle display area -->
+        <div class="fleet-display">
+
+            <div class="fleet-slide active" data-vehicle="0">
+                <div class="fleet-spotlight"></div>
+                <img src="assets/fleet/transparent/range-rover-gold.png"
+                     alt="White Lane Range Rover Gold Edition"
+                     class="fleet-vehicle-img">
+                <div class="fleet-ground"></div>
+            </div>
+
+            <div class="fleet-slide" data-vehicle="1">
+                <div class="fleet-spotlight"></div>
+                <img src="assets/fleet/transparent/escalade-white.png"
+                     alt="White Lane Cadillac Escalade"
+                     class="fleet-vehicle-img">
+                <div class="fleet-ground"></div>
+            </div>
+
+            <div class="fleet-slide" data-vehicle="2">
+                <div class="fleet-spotlight"></div>
+                <img src="assets/fleet/transparent/mercedes-gls-white.png"
+                     alt="White Lane Mercedes GLS"
+                     class="fleet-vehicle-img">
+                <div class="fleet-ground"></div>
+            </div>
+
+            <div class="fleet-slide" data-vehicle="3">
+                <div class="fleet-spotlight"></div>
+                <img src="assets/fleet/transparent/mercedes-s-white.png"
+                     alt="White Lane Mercedes S-Class"
+                     class="fleet-vehicle-img">
+                <div class="fleet-ground"></div>
+            </div>
+
+        </div>
+    </div><!-- /.fleet-stage -->
+
+    <!-- Vehicle details strip -->
+    <div class="fleet-details">
+
+        <div class="fleet-detail-panel active" data-vehicle="0">
+            <div class="fleet-detail-identity">
+                <div class="fleet-detail-badge">
+                    <div class="fleet-detail-dot"></div>
+                    <span class="fleet-detail-badge-text">Signature Class</span>
+                </div>
+                <h3 class="fleet-detail-name">Range Rover</h3>
+                <p class="fleet-detail-sub">Gold Edition &nbsp;·&nbsp; White Lane Exclusive</p>
+            </div>
+            <div class="fleet-detail-specs">
+                <div class="spec">
+                    <span class="spec-label">Capacity</span>
+                    <span class="spec-value">4 Guests</span>
+                </div>
+                <div class="spec">
+                    <span class="spec-label">Class</span>
+                    <span class="spec-value">Executive SUV</span>
+                </div>
+                <div class="spec">
+                    <span class="spec-label">Accent</span>
+                    <span class="spec-value" style="color:var(--gold)">Gold</span>
+                </div>
+            </div>
+            <a href="#app" class="btn-book-vehicle">Book This Vehicle <span class="btn-arrow">→</span></a>
+        </div>
+
+        <div class="fleet-detail-panel" data-vehicle="1">
+            <div class="fleet-detail-identity">
+                <div class="fleet-detail-badge">
+                    <div class="fleet-detail-dot"></div>
+                    <span class="fleet-detail-badge-text">Executive Class</span>
+                </div>
+                <h3 class="fleet-detail-name">Cadillac Escalade</h3>
+                <p class="fleet-detail-sub">Executive Fleet &nbsp;·&nbsp; White Lane Standard</p>
+            </div>
+            <div class="fleet-detail-specs">
+                <div class="spec">
+                    <span class="spec-label">Capacity</span>
+                    <span class="spec-value">6 Guests</span>
+                </div>
+                <div class="spec">
+                    <span class="spec-label">Class</span>
+                    <span class="spec-value">Executive SUV</span>
+                </div>
+                <div class="spec">
+                    <span class="spec-label">Variant</span>
+                    <span class="spec-value">ESV Platinum</span>
+                </div>
+            </div>
+            <a href="#app" class="btn-book-vehicle">Book This Vehicle <span class="btn-arrow">→</span></a>
+        </div>
+
+        <div class="fleet-detail-panel" data-vehicle="2">
+            <div class="fleet-detail-identity">
+                <div class="fleet-detail-badge">
+                    <div class="fleet-detail-dot"></div>
+                    <span class="fleet-detail-badge-text">Premium Class</span>
+                </div>
+                <h3 class="fleet-detail-name">Mercedes GLS</h3>
+                <p class="fleet-detail-sub">Premium Fleet &nbsp;·&nbsp; 7-Seat Luxury</p>
+            </div>
+            <div class="fleet-detail-specs">
+                <div class="spec">
+                    <span class="spec-label">Capacity</span>
+                    <span class="spec-value">7 Guests</span>
+                </div>
+                <div class="spec">
+                    <span class="spec-label">Class</span>
+                    <span class="spec-value">Full-Size SUV</span>
+                </div>
+                <div class="spec">
+                    <span class="spec-label">Variant</span>
+                    <span class="spec-value">GLS 580</span>
+                </div>
+            </div>
+            <a href="#app" class="btn-book-vehicle">Book This Vehicle <span class="btn-arrow">→</span></a>
+        </div>
+
+        <div class="fleet-detail-panel" data-vehicle="3">
+            <div class="fleet-detail-identity">
+                <div class="fleet-detail-badge">
+                    <div class="fleet-detail-dot"></div>
+                    <span class="fleet-detail-badge-text">Executive Sedan</span>
+                </div>
+                <h3 class="fleet-detail-name">Mercedes S‑Class</h3>
+                <p class="fleet-detail-sub">Sedan Class &nbsp;·&nbsp; Refined Arrival</p>
+            </div>
+            <div class="fleet-detail-specs">
+                <div class="spec">
+                    <span class="spec-label">Capacity</span>
+                    <span class="spec-value">3 Guests</span>
+                </div>
+                <div class="spec">
+                    <span class="spec-label">Class</span>
+                    <span class="spec-value">Executive Sedan</span>
+                </div>
+                <div class="spec">
+                    <span class="spec-label">Variant</span>
+                    <span class="spec-value">S 580 LWB</span>
+                </div>
+            </div>
+            <a href="#app" class="btn-book-vehicle">Book This Vehicle <span class="btn-arrow">→</span></a>
+        </div>
+
+    </div><!-- /.fleet-details -->
+
+</section>
+
+
+<!-- ─── WHY WHITE LANE ─── -->
+<section class="why" id="why">
+    <div class="section-header">
+        <h2 class="section-title fade">Why White Lane</h2>
+        <span class="section-count fade">The Difference</span>
+    </div>
+
+    <div class="why-grid">
+        <div class="why-cell fade">
+            <div class="why-icon"></div>
+            <p class="why-title">White fleet.<br>Always recognizable.</p>
+            <p class="why-desc">You'll know it's White Lane before the door opens. No black cars, no confusion. One standard. One color. Unmistakable.</p>
+        </div>
+        <div class="why-cell fade d1">
+            <div class="why-icon"></div>
+            <p class="why-title">Fixed rates.<br>No surge. No surprises.</p>
+            <p class="why-desc">What you're quoted is what you pay. We don't adjust prices based on demand, weather, or time of day. Integrity in every mile.</p>
+        </div>
+        <div class="why-cell fade d2">
+            <div class="why-icon"></div>
+            <p class="why-title">Your driver<br>is assigned — not matched.</p>
+            <p class="why-desc">You're not handed to an algorithm. You're connected to a professional who knows your preferences, your schedule, and your name.</p>
+        </div>
+        <div class="why-cell fade d3">
+            <div class="why-icon"></div>
+            <p class="why-title">Black-owned.<br>Community-invested.</p>
+            <p class="why-desc">Every dollar you spend moves through a business that is actively reinvesting in the communities we serve. Family-run. Faith-driven.</p>
+        </div>
+    </div>
+</section>
+
+
+<!-- ─── SCROLLING STANDARDS ─── -->
+<div class="standards">
+    <div class="standards-track">
+        <span class="standards-item">White Fleet Only</span>
+        <span class="standards-item">Fixed Pricing</span>
+        <span class="standards-item">Assigned Driver</span>
+        <span class="standards-item">24 / 7 Available</span>
+        <span class="standards-item">Black-Owned</span>
+        <span class="standards-item">No Hidden Fees</span>
+        <span class="standards-item">Real-Time Tracking</span>
+        <span class="standards-item">Gold Accent Fleet</span>
+        <span class="standards-item">Tampa · Atlanta</span>
+        <!-- Duplicate for seamless loop -->
+        <span class="standards-item">White Fleet Only</span>
+        <span class="standards-item">Fixed Pricing</span>
+        <span class="standards-item">Assigned Driver</span>
+        <span class="standards-item">24 / 7 Available</span>
+        <span class="standards-item">Black-Owned</span>
+        <span class="standards-item">No Hidden Fees</span>
+        <span class="standards-item">Real-Time Tracking</span>
+        <span class="standards-item">Gold Accent Fleet</span>
+        <span class="standards-item">Tampa · Atlanta</span>
+    </div>
+</div>
+
+
+<!-- ─── APP ─── -->
+<section class="app-section" id="app">
+    <div class="app-inner">
+
+        <div class="app-copy fade">
+            <p class="os-label" style="justify-content: flex-start;">Coming Soon</p>
+            <h2 class="app-title">
+                Precision<br>in your<br><span>pocket.</span>
+            </h2>
+            <p class="app-sub">The White Lane app brings fixed pricing, real-time driver tracking, and your dedicated chauffeur — directly to your phone. Reserve, track, and ride. No friction.</p>
+            <div class="app-buttons">
+                <a href="#" class="app-btn app-btn-primary">
+                    <span class="app-btn-icon">&#xf8ff;</span>
+                    <span class="app-btn-text">
+                        <span class="app-btn-top">Download on the</span>
+                        <span class="app-btn-store">App Store</span>
+                    </span>
+                </a>
+                <a href="#" class="app-btn app-btn-secondary">
+                    <span class="app-btn-icon">▶</span>
+                    <span class="app-btn-text">
+                        <span class="app-btn-top">Get it on</span>
+                        <span class="app-btn-store">Google Play</span>
+                    </span>
+                </a>
+            </div>
+        </div>
+
+        <!-- OS Dashboard Mockup -->
+        <div class="app-mockup fade d2">
+            <div class="mockup-bar">
+                <span class="mockup-logo">WL</span>
+                <span class="mockup-time">9:41 AM</span>
+            </div>
+
+            <div class="mockup-map">
+                <div class="mockup-route">
+                    <svg viewBox="0 0 300 200" preserveAspectRatio="none">
+                        <path d="M 40 160 Q 80 120 150 100 Q 220 80 260 40"
+                              stroke="rgba(201,168,76,0.4)" stroke-width="1.5" fill="none" stroke-dasharray="4 4"/>
+                    </svg>
+                </div>
+                <div class="mockup-pin"></div>
+            </div>
+
+            <div class="mockup-card">
+                <div class="mockup-driver">
+                    <span class="mockup-driver-name">Marcus W.</span>
+                    <span class="mockup-driver-sub">Range Rover · Gold · WL-001</span>
+                </div>
+                <div class="mockup-eta">
+                    <div class="mockup-eta-num">4</div>
+                    <div class="mockup-eta-label">Min Away</div>
+                </div>
+            </div>
+
+            <div class="mockup-actions">
+                <div class="mockup-btn mockup-btn-primary">Track Driver</div>
+                <div class="mockup-btn mockup-btn-secondary">···</div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- ─── FOOTER ─── -->
+<footer>
+    <div class="footer-top">
+        <div class="footer-brand">
+            <div class="footer-wl">WL</div>
+            <div class="footer-wordmark">White Lane</div>
+            <p class="footer-tagline">Executive chauffeur service.<br>White fleet. Fixed rates. Your standard.</p>
+        </div>
+        <div class="footer-cols">
+            <div class="footer-col">
+                <p class="footer-col-title">Services</p>
+                <ul>
+                    <li><a href="#services">Airport Transfers</a></li>
+                    <li><a href="#services">Executive Transport</a></li>
+                    <li><a href="#services">Hourly Chauffeur</a></li>
+                    <li><a href="#services">Private & Events</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <p class="footer-col-title">Company</p>
+                <ul>
+                    <li><a href="#">About White Lane</a></li>
+                    <li><a href="#">Our Fleet</a></li>
+                    <li><a href="#">Download App</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <p class="footer-col-title">Markets</p>
+                <ul>
+                    <li><a href="#">Tampa, FL</a></li>
+                    <li><a href="#">Atlanta, GA</a></li>
+                    <li><a href="#">Coming Soon</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-copy">© 2026 White Lane. All Rights Reserved.</p>
+        <p class="footer-markets">Tampa &nbsp;·&nbsp; Atlanta</p>
+    </div>
+</footer>
+
+
+<script>
+
+// ── Cinematic video intro ──────────────────────────────────────────
+(function() {
+    const overlay  = document.getElementById('intro-overlay');
+    const video    = document.getElementById('intro-video');
+    const brand    = document.getElementById('intro-brand');
+    const skipBtn  = document.getElementById('intro-skip');
+
+    let dismissed = false;
+
+    function dismiss() {
+        if (dismissed) return;
+        dismissed = true;
+        overlay.classList.add('dismissed');
+        setTimeout(() => {
+            overlay.style.display = 'none';
+            document.body.classList.add('intro-complete');
+            revealHero();
+        }, 1250);
+    }
+
+    function revealHero() {
+        document.getElementById('heroCopy')?.classList.add('on');
+        document.getElementById('heroVehicle')?.classList.add('on');
+        document.getElementById('heroLine')?.classList.add('on');
+        setTimeout(() => document.getElementById('heroStatus')?.classList.add('on'), 500);
+    }
+
+    // Brand reveal: 2.5s before video ends
+    video.addEventListener('timeupdate', () => {
+        if (!video.duration) return;
+        const remaining = video.duration - video.currentTime;
+        if (remaining <= 2.5 && !brand.classList.contains('visible')) {
+            brand.classList.add('visible');
+        }
+    });
+
+    // Auto-dismiss on video end (hold brand mark 1.5s first)
+    video.addEventListener('ended', () => {
+        setTimeout(dismiss, 1500);
+    });
+
+    // If video fails to load (no file yet), dismiss after 800ms
+    video.addEventListener('error', () => {
+        brand.classList.add('visible');
+        setTimeout(dismiss, 1200);
+    });
+
+    // If video stalls for more than 4 seconds, move on
+    let stallTimer = setTimeout(() => {
+        if (video.readyState < 3) dismiss();
+    }, 4000);
+    video.addEventListener('canplay', () => clearTimeout(stallTimer));
+
+    // Skip
+    skipBtn.addEventListener('click', () => {
+        video.pause();
+        dismiss();
+    });
+})();
+
+// ── Fleet selector ───────────────────────────────────────────────
+(function() {
+    const navItems    = document.querySelectorAll('.fleet-nav-item');
+    const slides      = document.querySelectorAll('.fleet-slide');
+    const detailPanels = document.querySelectorAll('.fleet-detail-panel');
+
+    function activate(idx) {
+        navItems.forEach(b => b.classList.toggle('active', b.dataset.vehicle == idx));
+        slides.forEach(s => {
+            const isActive = s.dataset.vehicle == idx;
+            if (isActive) {
+                s.classList.add('active');
+            } else {
+                s.classList.remove('active');
+            }
+        });
+        detailPanels.forEach(p => p.classList.toggle('active', p.dataset.vehicle == idx));
+    }
+
+    navItems.forEach(btn => {
+        btn.addEventListener('click', () => activate(btn.dataset.vehicle));
+    });
+})();
+
+// ── Nav scroll ────────────────────────────────────────────────────
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+}, { passive: true });
+
+// ── Fade in on scroll ─────────────────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('on');
+            observer.unobserve(e.target);
+        }
+    });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade').forEach(el => observer.observe(el));
+
+</script>
+
+</body>
+</html>
